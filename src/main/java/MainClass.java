@@ -16,14 +16,19 @@ public class MainClass {
         driver.manage().window().maximize();
 
         driver.get("https://en.wikipedia.org/wiki/Main_Page");
-        WebElement link = driver.findElement(By.linkText("Log in"));
-        WebElement link2 = driver.findElement(By.partialLinkText("Donate"));
-        WebElement searchField = driver.findElement(By.name("search"));
-        WebElement searchButton = driver.findElement(By.className("searchButton"));
-        WebElement li = driver.findElement(By.id("ca-viewsource"));
-        WebElement input = driver.findElement(By.tagName("input"));
-        WebElement element = driver.findElement(By.cssSelector("div#simpleSearch input#searchButton"));
-        WebElement logo = driver.findElement(By.xpath("//div[@id='mw-panel']/div[@id='p-logo']//a"));
+        driver.findElement(By.xpath("//input[@id='searchButton']")).click();
+
+        driver.get("https://github.com");
+        WebElement button = driver.findElement(By.xpath("//button[@type='submit']"));
+        if (button.getText().equals("Sign up for GitHub")) {
+            System.out.println("Success");
+        } else System.out.println("Fail");
+//        button.submit();
+
+        driver.findElement(By.xpath("//a[contains(text(),'Sign in')]")).click();
+
+        driver.get("http://en-gb.facebook.com");
+        driver.findElement(By.xpath("//button[@name='login']")).submit();
 
 //        driver.quit();
 
