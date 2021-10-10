@@ -2,11 +2,16 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import java.time.Duration;
+
+
 public class MainClass {
     public static void main(String[] args) {
         System.setProperty("webserver.chrome.driver", "D://QA_Auto/chromedriver_win32/chromedriver.exe");
 
         WebDriver driver = new ChromeDriver();
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
         driver.manage().window().setSize(new Dimension(900, 500));
 
