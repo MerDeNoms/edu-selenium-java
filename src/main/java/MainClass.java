@@ -14,17 +14,35 @@ public class MainClass {
     static WebDriver driver;
 
     public static void main(String[] args) {
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\kuzmin_ad\\QA_Auto\\chromedriver_win32\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "D://QA_Auto/chromedriver_win32/chromedriver.exe");
 
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().window().maximize();
 
-        driver.get("https://ru.ebay.com/");
+        driver.get("https://dineshvelhal.github.io/testautomation-playground/expected_conditions.html");
+        driver.findElement(By.xpath("//button[text()='Show Alert']")).click();
+        try {
+            Thread.sleep(4000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        driver.switchTo().alert().accept();
 
-        JavascriptExecutor jse = (JavascriptExecutor) driver;
-        jse.executeScript("window.scrollBy(0, 10000)", "");
-        jse.executeScript("window.scrollBy(0, -10000)", "");
-        jse.executeScript("alert('Hello World!');");
+        if (driver.findElement(By.xpath("//span[@id='alert_handled_badge']")).getText().equals("Alert handled")) {
+            System.out.println("Alert handled");
+        }
+        else System.out.println("Alert isn't handled");
+
+        driver.get("https://www.google.com");
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("confirm('Are you sure?');");
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        driver.switchTo().alert().dismiss();
+
     }
 }
