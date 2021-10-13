@@ -16,43 +16,17 @@ public class MainClass {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().window().maximize();
 
-        driver.get("https://market.yandex.ru/");
-        driver.findElement(By.xpath("//div[@class='CheckboxCaptcha-Anchor']")).click(); //captcha check
-        driver.findElement(By.xpath("//div[@data-zone-name='category-link'][3]/div")).click();
-        driver.findElement(By.xpath("//a[text()='Стиральные и сушильные машины']")).click();
-        driver.findElement(By.xpath("//a[text()='Стиральные машины']")).click();
-
-        selectCheckbox("ATLANT");
-
-        System.out.println(driver.findElement(By.xpath("//input[contains(@name, 'ATLANT')]")).isSelected());
-
-        selectCheckbox("Bosch");
-        selectCheckbox("LG");
-
-        unselectCheckbox("Bosch");
-
-        driver.findElement(By.xpath("//span[contains(text(), 'Доставка курьером')]")).click();
-        System.out.println(driver.findElement(By.xpath("//span[contains(text(), 'До 5 дней')]/parent::div/preceding-sibling::input")).isSelected());
-        driver.findElement(By.xpath("//span[contains(text(), 'До 5 дней')]")).click();
-        System.out.println(driver.findElement(By.xpath("//span[contains(text(), 'До 5 дней')]/parent::div/preceding-sibling::input")).isSelected());
-
-//        driver.quit();
+        driver.get("https://the-internet.herokuapp.com/dropdown");
+        selectOption("1");
+        System.out.println("Selected option is: " + driver.findElement(By.xpath("//option[@selected='selected']")).getText());
+        selectOption("2");
+        System.out.println("Selected option is: " + driver.findElement(By.xpath("//option[@selected='selected']")).getText());
 
     }
 
-    public static void selectCheckbox (String name) {
-        String checkXpath = "//span[contains(text(), '%s')]";
-        String checkXpathIfChecked = "//input[contains(@name, '%s')]";
-        if (!driver.findElement(By.xpath(String.format(checkXpathIfChecked, name))).isSelected()) {
-            driver.findElement(By.xpath(String.format(checkXpath, name))).click();
-        }
-    }
-
-    public static void unselectCheckbox (String name) {
-        String checkXpath = "//span[contains(text(), '%s')]";
-        String checkXpathIfChecked = "//input[contains(@name, '%s')]";
-        if (driver.findElement(By.xpath(String.format(checkXpathIfChecked, name))).isSelected()) {
-            driver.findElement(By.xpath(String.format(checkXpath, name))).click();
-        }
+    public static void selectOption (String option) {
+        String optionXpath = String.format("//option[@value='%s']", option);
+        driver.findElement(By.xpath("//select[@id='dropdown']")).click();
+        driver.findElement(By.xpath(optionXpath)).click();
     }
 }
