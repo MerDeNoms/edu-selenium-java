@@ -20,29 +20,22 @@ public class MainClass {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().window().maximize();
 
-        driver.get("https://dineshvelhal.github.io/testautomation-playground/expected_conditions.html");
-        driver.findElement(By.xpath("//button[text()='Show Alert']")).click();
-        try {
-            Thread.sleep(4000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        driver.switchTo().alert().accept();
+        driver.get("https://dineshvelhal.github.io/testautomation-playground/multi_window.html");
+        String mainTab = driver.getWindowHandle();
+        driver.findElement(By.xpath("//a[text()='Open New Window 1']")).click();
 
-        if (driver.findElement(By.xpath("//span[@id='alert_handled_badge']")).getText().equals("Alert handled")) {
-            System.out.println("Alert handled");
+        for (String tab : driver.getWindowHandles()) {
+            driver.switchTo().window(tab);
         }
-        else System.out.println("Alert isn't handled");
 
-        driver.get("https://www.google.com");
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("confirm('Are you sure?');");
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        driver.findElement(By.xpath("//button")).click();
+
+        if (driver.findElement(By.xpath("//button")).getText().equals("Clicked")) {
+            System.out.println("OK");
         }
-        driver.switchTo().alert().dismiss();
+        else System.out.println("NOT OK");
+
+        driver.switchTo().window(mainTab);
 
     }
 }
