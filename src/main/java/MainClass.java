@@ -16,17 +16,15 @@ public class MainClass {
         driver.manage().window().maximize();
 
         driver.get("https://en.wikipedia.org/wiki/Main_Page");
-        driver.findElement(By.xpath("//input[@type='search']")).sendKeys("Selenium Webdriver");
-        driver.findElement(By.xpath("//input[@id='searchButton']")).click();
-        System.out.println(driver.findElement(By.xpath("//div[@id='searchText']/input")).getAttribute("value"));
-        driver.findElement(By.xpath("//div[@id='searchText']/input")).clear();
+        WebElement link =  driver.findElement(By.xpath("//li[@id='n-aboutsite']/a"));
+        System.out.println(link.getText());
+        link.click();
 
+        driver.get("https://github.com/");
+        driver.findElement(By.xpath("//nav[1]/ul/li[2]/a")).click();
 
-        driver.get("http://en-gb.facebook.com");
-        driver.findElement(By.xpath("//input[@id='email']")).sendKeys("testmail");
-        driver.findElement(By.xpath("//input[@id='pass']")).sendKeys("testpass");
-        driver.findElement(By.xpath("//button[@name='login']")).submit();
-
+        driver.get("https://ru-ru.facebook.com/");
+        driver.findElement(By.xpath("//form/div[3]/a")).click();
 
 //        driver.quit();
 
