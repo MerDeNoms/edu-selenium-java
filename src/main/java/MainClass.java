@@ -2,6 +2,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.List;
@@ -15,26 +18,15 @@ public class MainClass {
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\kuzmin_ad\\QA_Auto\\chromedriver_win32\\chromedriver.exe");
 
         driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+//        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().window().maximize();
 
-        driver.get("https://market.yandex.ru/");
+        driver.get("http://the-internet.herokuapp.com/dynamic_controls");
 
-        //captcha check
-        if (driver.getTitle().equals("Ой!")) {
-            driver.findElement(By.xpath("//div[@class='CheckboxCaptcha-Anchor']")).click();
-        }
-
-        driver.findElement(By.xpath("//div[@data-zone-name='category-link'][3]/div")).click();
-        driver.findElement(By.xpath("//a[text()='Стиральные и сушильные машины']")).click();
-        driver.findElement(By.xpath("//a[text()='Стиральные машины']")).click();
-
-        List <WebElement> checkboxes = driver.findElements(By.xpath("//input[contains(@name, 'Производитель')]/following-sibling::div/span"));
-
-        if (checkboxes.size() == 12) System.out.println("OK");
-        else System.out.println("NOT OK");
-
-        for (WebElement checkbox : checkboxes) checkbox.click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        driver.findElement(By.xpath("//button[text()='Enable']")).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//button[text()='Disable']")));
+        driver.findElement(By.xpath("//button[text()='Disable']")).click();
 
     }
 }
