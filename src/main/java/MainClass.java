@@ -1,6 +1,4 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -24,10 +22,9 @@ public class MainClass {
 
         driver.get("https://ru.ebay.com/");
 
-        WebElement link = driver.findElement(By.xpath("//li[@class='hl-cat-nav__js-tab']//a[text()='Электроника']"));
-
-        Actions actions = new Actions(driver);
-        actions.moveToElement(link).build().perform();
-
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        jse.executeScript("window.scrollBy(0, 10000)", "");
+        jse.executeScript("window.scrollBy(0, -10000)", "");
+        jse.executeScript("alert('Hello World!');");
     }
 }
