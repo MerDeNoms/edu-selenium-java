@@ -1,8 +1,10 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.time.Duration;
+import java.util.List;
 
 
 public class MainClass {
@@ -16,17 +18,23 @@ public class MainClass {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().window().maximize();
 
-        driver.get("https://the-internet.herokuapp.com/dropdown");
-        selectOption("1");
-        System.out.println("Selected option is: " + driver.findElement(By.xpath("//option[@selected='selected']")).getText());
-        selectOption("2");
-        System.out.println("Selected option is: " + driver.findElement(By.xpath("//option[@selected='selected']")).getText());
+        driver.get("https://market.yandex.ru/");
 
-    }
+        //captcha check
+        if (driver.getTitle().equals("Ой!")) {
+            driver.findElement(By.xpath("//div[@class='CheckboxCaptcha-Anchor']")).click();
+        }
 
-    public static void selectOption (String option) {
-        String optionXpath = String.format("//option[@value='%s']", option);
-        driver.findElement(By.xpath("//select[@id='dropdown']")).click();
-        driver.findElement(By.xpath(optionXpath)).click();
+        driver.findElement(By.xpath("//div[@data-zone-name='category-link'][3]/div")).click();
+        driver.findElement(By.xpath("//a[text()='Стиральные и сушильные машины']")).click();
+        driver.findElement(By.xpath("//a[text()='Стиральные машины']")).click();
+
+        List <WebElement> checkboxes = driver.findElements(By.xpath("//input[contains(@name, 'Производитель')]/following-sibling::div/span"));
+
+        if (checkboxes.size() == 12) System.out.println("OK");
+        else System.out.println("NOT OK");
+
+        for (WebElement checkbox : checkboxes) checkbox.click();
+
     }
 }
