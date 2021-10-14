@@ -14,28 +14,33 @@ public class MainClass {
     static WebDriver driver;
 
     public static void main(String[] args) {
-        System.setProperty("webdriver.chrome.driver", "D://QA_Auto/chromedriver_win32/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "C:\\Users\\kuzmin_ad\\QA_Auto\\chromedriver_win32\\chromedriver.exe");
 
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().window().maximize();
 
-        driver.get("https://dineshvelhal.github.io/testautomation-playground/multi_window.html");
-        String mainTab = driver.getWindowHandle();
-        driver.findElement(By.xpath("//a[text()='Open New Window 1']")).click();
+        driver.get("https://dineshvelhal.github.io/testautomation-playground/expected_conditions.html");
 
-        for (String tab : driver.getWindowHandles()) {
-            driver.switchTo().window(tab);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+
+        if (!driver.findElement(By.xpath("//button[@id='enabled_target']")).isEnabled()) {
+            driver.findElement(By.xpath("//button[@id='enabled_trigger']")).click();
+            driver.findElement(By.xpath("//button[@id='enabled_target']")).click();
         }
 
-        driver.findElement(By.xpath("//button")).click();
+        if (driver.findElement(By.xpath("//div[@id='invisibility_target']")).isDisplayed()) {
+            driver.findElement(By.xpath("//button[@id='invisibility_trigger']")).click();
 
-        if (driver.findElement(By.xpath("//button")).getText().equals("Clicked")) {
-            System.out.println("OK");
+            wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@id='invisibility_trigger']")));
+
+            if (!driver.findElement(By.xpath("//div[@id='invisibility_target']")).isDisplayed())
+            {
+                System.out.println("Element is gone! Success!");
+            }
+            else System.out.println("Element is here! Fail!");
         }
-        else System.out.println("NOT OK");
 
-        driver.switchTo().window(mainTab);
 
     }
 }
