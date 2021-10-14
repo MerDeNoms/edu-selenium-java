@@ -17,30 +17,17 @@ public class MainClass {
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\kuzmin_ad\\QA_Auto\\chromedriver_win32\\chromedriver.exe");
 
         driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
         driver.manage().window().maximize();
 
         driver.get("https://dineshvelhal.github.io/testautomation-playground/expected_conditions.html");
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        List<WebElement> button = driver.findElements(By.xpath("//button[@id='visibility']"));
 
-        if (!driver.findElement(By.xpath("//button[@id='enabled_target']")).isEnabled()) {
-            driver.findElement(By.xpath("//button[@id='enabled_trigger']")).click();
-            driver.findElement(By.xpath("//button[@id='enabled_target']")).click();
-        }
+        if (button.size() == 0) System.out.println("No such element!");
+        else System.out.println("Element is found!");
 
-        if (driver.findElement(By.xpath("//div[@id='invisibility_target']")).isDisplayed()) {
-            driver.findElement(By.xpath("//button[@id='invisibility_trigger']")).click();
-
-            wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@id='invisibility_trigger']")));
-
-            if (!driver.findElement(By.xpath("//div[@id='invisibility_target']")).isDisplayed())
-            {
-                System.out.println("Element is gone! Success!");
-            }
-            else System.out.println("Element is here! Fail!");
-        }
-
+        driver.quit();
 
     }
 }
