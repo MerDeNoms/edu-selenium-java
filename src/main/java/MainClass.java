@@ -20,14 +20,20 @@ public class MainClass {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
         driver.manage().window().maximize();
 
-        driver.get("https://dineshvelhal.github.io/testautomation-playground/expected_conditions.html");
+        driver.get("https://dineshvelhal.github.io/testautomation-playground/keyboard_events.html");
 
-        List<WebElement> button = driver.findElements(By.xpath("//button[@id='visibility']"));
+        String someKeys = Keys.chord("Hello World!");
+        String select = Keys.chord(Keys.CONTROL, "a");
+        String cut = Keys.chord(Keys.CONTROL, "x");
+        String copy = Keys.chord(Keys.CONTROL, "c");
+        String paste = Keys.chord(Keys.CONTROL, "v");
 
-        if (button.size() == 0) System.out.println("No such element!");
-        else System.out.println("Element is found!");
-
-        driver.quit();
+        WebElement textArea = driver.findElement(By.xpath("//textarea"));
+        textArea.sendKeys(someKeys);
+        textArea.sendKeys(select);
+        textArea.sendKeys(Keys.ARROW_RIGHT, Keys.SPACE);
+        textArea.sendKeys(copy);
+        textArea.sendKeys(paste);
 
     }
 }
