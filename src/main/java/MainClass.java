@@ -1,12 +1,10 @@
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.io.FileHandler;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
-import java.util.List;
 
 
 public class MainClass {
@@ -20,20 +18,14 @@ public class MainClass {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
         driver.manage().window().maximize();
 
-        driver.get("https://dineshvelhal.github.io/testautomation-playground/keyboard_events.html");
+        driver.get("https://dineshvelhal.github.io/testautomation-playground/index.html");
 
-        String someKeys = Keys.chord("Hello World!");
-        String select = Keys.chord(Keys.CONTROL, "a");
-        String cut = Keys.chord(Keys.CONTROL, "x");
-        String copy = Keys.chord(Keys.CONTROL, "c");
-        String paste = Keys.chord(Keys.CONTROL, "v");
-
-        WebElement textArea = driver.findElement(By.xpath("//textarea"));
-        textArea.sendKeys(someKeys);
-        textArea.sendKeys(select);
-        textArea.sendKeys(Keys.ARROW_RIGHT, Keys.SPACE);
-        textArea.sendKeys(copy);
-        textArea.sendKeys(paste);
+        File screenshot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+        try {
+            FileHandler.copy(screenshot, new File("C:\\Users\\kuzmin_ad\\QA_Auto\\Screenshot.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 }
