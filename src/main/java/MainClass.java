@@ -15,17 +15,14 @@ public class MainClass {
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\kuzmin_ad\\QA_Auto\\chromedriver_win32\\chromedriver.exe");
 
         driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().window().maximize();
 
-        driver.get("https://dineshvelhal.github.io/testautomation-playground/index.html");
+        driver.get("https://www.google.ru/imghp?hl=ru");
 
-        File screenshot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-        try {
-            FileHandler.copy(screenshot, new File("C:\\Users\\kuzmin_ad\\QA_Auto\\Screenshot.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        driver.findElement(By.xpath("//div[@aria-label='Поиск по картинке']")).click();
+        driver.findElement(By.xpath("//a[text()='Загрузить изображение']")).click();
+        driver.findElement(By.xpath("//input[@type='file']")).sendKeys("C:\\Users\\kuzmin_ad\\QA_Auto\\Screenshot.png");
 
     }
 }
